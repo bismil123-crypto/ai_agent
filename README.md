@@ -1,32 +1,43 @@
-# ai_agent
-# 🎓 University Help Desk (AI-Powered)
+#ai_agent
+**University Help Desk**
+**Overview**
+This project is a University Help Desk web app built with Django. It lets users ask questions by voice or text and get replies both as spoken audio and text. The interface uses HTML, CSS, and JavaScript for a smooth and modern user experience. It’s designed to help students and visitors find university info quickly and easily.
 
-## 📖 Project Overview
-The **University Help Desk** is an intelligent web-based assistant built using **Django**. It allows users to interact with the system using **voice and text**, and receive **voice and text replies**. Designed to help students and visitors navigate university-related queries, this project offers a smart and user-friendly interface with enhanced **UI/UX** using **HTML, CSS, and JavaScript**.
+**Features**
+Voice input (speech-to-text)
 
----
+Voice and text replies (text-to-speech)
 
-## ✨ Key Features
-- 🎤 Accepts voice input (speech-to-text)
-- 🗣️ Responds in both voice and text (text-to-speech)
-- 💬 Chat-like interface
-- 🎨 Clean and modern UI/UX
-- 🌐 Developed using Django (Python), HTML, CSS, and JavaScript
+Simple chat-like interface
 
----
+Clean, user-friendly UI built with HTML/CSS/JS
 
-## 🛠 Tech Stack
-- **Backend**: Django (Python)
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Voice Input/Output**: SpeechRecognition, pyttsx3 or browser-based Web Speech API
-- **Styling**: Bootstrap (optional), custom CSS
-- **Templates**: Django templating system
+Powered by Django backend
 
----
+**Tech Stack**
+Backend: Django (Python)
 
-## ⚙️ Installation Steps
+Frontend: HTML5, CSS3, JavaScript
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/bismil123-crypto/ai_agent.git
-   cd ai_agent
+Voice input/output: SpeechRecognition, pyttsx3, or browser Web Speech API
+
+Django templates for rendering pages
+**Setup Instructions****
+Clone the repo:**
+git clone https://github.com/bismil123-crypto/ai_agent.git
+cd ai_agent
+Create and activate a **virtual environment**:
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+
+**Install dependencies:**
+pip install -r requirements.txt
+
+Apply **database migrations**:
+python manage.py migrate
+
+**Run the server:**
+python manage.py runserver
+
+Open your **browser** at http://127.0.0.1:8000 to use the app.
