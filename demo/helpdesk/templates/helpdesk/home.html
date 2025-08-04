@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>University Help Desk</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="{% static 'style/style.css' %}">
+
+  <style>
+    body {
+      margin: 0;
+      background: #d6efff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      width: 20%;
+      min-height: 100vh;
+      background: #f0f8ff;
+      padding: 30px 15px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      animation: slideIn 1s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .sidebar h4 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .nav-link:hover {
+      background-color: #e0f0ff;
+    }
+
+    .nav-link.active {
+      background-color: #003366;
+      color: white;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .chat-container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(57, 52, 52, 0.3);
+    }
+
+    .chat-box {
+      height: 350px;
+      overflow-y: auto;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 15px;
+      background: rgba(11, 10, 10, 0.2);
+      color: #000;
+    }
+
+    .chat-message {
+      margin-bottom: 10px;
+    }
+
+    .chat-message.user {
+      text-align: right;
+      font-weight: bold;
+      color: #0056b3;
+    }
+
+    .chat-message.bot {
+      text-align: left;
+      color: #333;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 150px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h4>Menu</h4>
+
+  <a href="{% url 'detail' %}" class="nav-link">Detail</a>
+  <a href="{% url 'main' %}" class="nav-link">main</a>
+  
+</div>
+
+<div class="main-content">
+  <div class="chat-container">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo" />
+    <h3 class="mb-4 text-center">University Help Desk</h3>
+    <div id="chat" class="chat-box"></div>
+    <div class="input-group mb-3">
+      <input type="text" id="userInput" class="form-control" placeholder="Ask your question here..." />
+      <button class="btn btn-outline-secondary" id="sendBtn">Send</button>
+      <button class="btn btn-outline-primary" id="voiceBtn" title="Speak your question">&#127908;</button>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/script.js' %}"></script>
+
+<script>
+  const chat = document.getElementById('chat');
+  const userInput = document.getElementById('userInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const voiceBtn = document.getElementById('voiceBtn');
+
+  function appendMessage(message, sender) {
+    const div = document.createElement('div');
+    div.classList.add('chat-message', sender);
+    div.textContent = message;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  async function askQuestion(question) {
+    appendMessage(question, 'user');
+    userInput.value = '';
+    const response = await fetch('/api/ask/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
+    const data = await response.json();
+    appendMessage(data.answer, 'bot');
+    speak(data.answer);
+  }
+
+  sendBtn.onclick = () => {
+    const question = userInput.value.trim();
+    if (question) askQuestion(question);
+  };
+
+  userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const question = userInput.value.trim();
+      if (question) askQuestion(question);
+    }
+  });
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      askQuestion(transcript);
+    };
+
+    recognition.onerror = (event) => {
+      alert('Voice recognition error: ' + event.error);
+    };
+
+    voiceBtn.onclick = () => {
+      recognition.start();
+    };
+  } else {
+    voiceBtn.style.display = 'none';
+  }
+
+  function speak(text) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+    }
+  }
+</script>
+
+</body>
+</html>

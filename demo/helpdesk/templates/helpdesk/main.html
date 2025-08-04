@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>University Help Desk</title>
+  <style>
+    html {
+      scroll-behavior: smooth; /* smooth scroll for anchors */
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #8AC1C2 1px, transparent 1px), #87C4C4;
+      background-size: 60px 100%;
+      font-family: 'Georgia', serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px 40px;
+      font-size: 18px;
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      background-color: #87C4C4;
+      z-index: 1000;
+    }
+
+    .navbar a {
+      color: black;
+      text-decoration: none;
+      margin-left: 30px;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    .navbar a:hover {
+      color: #055d5e;
+    }
+
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 30px;
+      font-size: 28px;
+      font-weight: bold;
+      line-height: 1;
+      color: black;
+      z-index: 1001;
+    }
+
+    .main {
+      text-align: center;
+      margin-top: 120px; /* Reduced for less gap */
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .main h1 {
+      font-size: 48px;
+      color: #022B3A;
+      margin-bottom: 40px;
+    }
+
+    .main h1 span {
+      display: block;
+      font-size: 60px;
+      font-weight: 700;
+    }
+
+    .desk-area {
+      position: relative;
+      width: 500px;
+      max-width: 60vw;
+      margin: 0 auto;
+    }
+
+    .desk-img {
+      width: 50%;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: slideUp 1.5s ease-in-out;
+    }
+
+    .robot-img {
+      position: absolute;
+      width: 120px;
+      top: 27px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: floatBot 2.5s infinite ease-in-out;
+      z-index: 2;
+    }
+
+    /* Styled link as button */
+    .explore-btn {
+      display: inline-block;
+      margin-top: 40px;
+      background: linear-gradient(135deg, #56cfe1, #72efdd);
+      padding: 14px 36px;
+      font-size: 22px;
+      border-radius: 30px;
+      border: none;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      color: #022B3A;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .explore-btn:hover,
+    .explore-btn:focus {
+      background: linear-gradient(135deg, #3bb5bb, #54c0b0);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+      color: #fff;
+      outline: none;
+    }
+    .explore-btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes floatBot {
+      0% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, -15px); }
+      100% { transform: translate(-50%, 0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .main h1 span {
+        font-size: 42px;
+      }
+      .robot-img {
+        width: 90px;
+        bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">U<br>D</div>
+
+  <div class="navbar">
+    <a href="#home">Home</a>
+    <a href="#detail">Detail</a>
+    <a href="#help">Help</a>
+  </div>
+
+  <div id="home" class="main">
+    <h1>
+      <span>University</span>
+      
+      <span> Help Desk</span>
+    </h1>
+
+    <div class="desk-area">
+      <img src="{% static 'images/desk.png' %}" alt="Desk Image" class="desk-img" />
+      <img src="{% static 'images/robort.png' %}" alt="Robot Image" class="robot-img" />
+    </div>
+
+    <a href="#detail" class="explore-btn" role="button" tabindex="0">Explore</a>
+  </div>
+
+  <div
+    id="detail"
+    style="margin-top: 150px; padding: 50px; font-size: 24px; max-width: 800px; text-align: center;"
+  >
+    <h2>Detail Section</h2>
+    <p>This is the Detail section of the Help Desk.</p>
+  </div>
+
+  <div
+    id="help"
+    style="margin-top: 100px; padding: 50px; font-size: 24px; max-width: 800px; text-align: center;"
+  >
+    <h2>Help Section</h2>
+    <p>This is the Help section for users needing support.</p>
+  </div>
+
+</body>
+</html>
